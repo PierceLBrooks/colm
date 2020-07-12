@@ -1,5 +1,5 @@
 /*
- * Copyright 2010-2018 Adrian Thurston <thurston@colm.net>
+ * Copyright 2001-2018 Adrian Thurston <thurston@colm.net>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to
@@ -20,48 +20,31 @@
  * SOFTWARE.
  */
 
-#ifndef _COLM_DEBUG_H
-#define _COLM_DEBUG_H
+#ifndef _COLM_PCHECK_H
+#define _COLM_PCHECK_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+class ParamCheck
+{
+public:
+	ParamCheck( const char *paramSpec, int argc, const char **argv );
 
-#include "colm.h"
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+	bool check();
 
-void fatal( const char *fmt, ... );
+	const char *parameterArg; /* The argument to the parameter. */
+	char parameter;     /* The parameter matched. */
+	enum { match, invalid, noparam } state;
 
-#ifdef DEBUG
-#define debug( prg, realm, ... ) _debug( prg, realm, __VA_ARGS__ )
-#define check_realm( realm ) _check_realm( realm )
-#else
-#define debug( prg, realm, ... ) 
-#define check_realm( realm ) 
-#endif
+	const char *argOffset;    /* If we are reading params inside an
+	                     * arg this points to the offset. */
 
-int _debug( struct colm_program *prg, long realm, const char *fmt, ... );
+	const char *curArg;       /* Pointer to the current arg. */
+	int iCurArg;        /* Index to the current arg. */
 
-void message( const char *fmt, ... );
+private:
+	const char *paramSpec;    /* Parameter spec supplied by the coder. */
+	int argc;           /* Arguement data from the command line. */
+	const char **argv;
+};
 
-#define REALM_BYTECODE    COLM_DBG_BYTECODE
-#define REALM_PARSE       COLM_DBG_PARSE
-#define REALM_MATCH       COLM_DBG_MATCH
-#define REALM_COMPILE     COLM_DBG_COMPILE
-#define REALM_POOL        COLM_DBG_POOL
-#define REALM_PRINT       COLM_DBG_PRINT
-#define REALM_INPUT       COLM_DBG_INPUT
-#define REALM_SCAN        COLM_DBG_SCAN
-
-#define REALMS            32
-
-extern const char *const colm_realm_names[REALMS];
-
-#ifdef __cplusplus
-}
-#endif
-
-#endif /* _COLM_DEBUG_H */
+#endif /* _COLM_PCHECK_H */
 

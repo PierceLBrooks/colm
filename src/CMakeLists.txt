@@ -16,6 +16,8 @@ endforeach()
 # Generate headers
 configure_file(version.h.cmake.in version.h @ONLY)
 configure_file(defs.h.cmake.in defs.h @ONLY)
+configure_file(version.h.cmake.in colm/version.h @ONLY)
+configure_file(defs.h.cmake.in colm/defs.h @ONLY)
 configure_file(colm-config.cmake.in
 "${PROJECT_BINARY_DIR}/${_PACKAGE_NAME}-config.cmake" @ONLY)
 
@@ -41,6 +43,7 @@ add_library(libcolm
 
 target_include_directories(libcolm
 	PUBLIC
+	$<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}>
 	$<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/..>
 	$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
 	$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/..>

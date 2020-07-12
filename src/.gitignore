@@ -3,7 +3,6 @@
 /Makefile.in
 /Makefile
 /.*.d
-/colm
 /defs.h
 /config.h
 /version.h
